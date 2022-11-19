@@ -26,6 +26,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 
 /**
  * An {@link OutputStream} that starts buffering to a byte array, but switches to file buffering
@@ -192,7 +193,7 @@ public final class FileBackedOutputStream extends OutputStream {
    */
   private void update(int len) throws IOException {
     if (file == null && (memory.getCount() + len > fileThreshold)) {
-      File temp = File.createTempFile("FileBackedOutputStream", null);
+      File temp = Files.createTempFile("FileBackedOutputStream", null).toFile();
       if (resetOnFinalize) {
         // Finalizers are not guaranteed to be called on system shutdown;
         // this is insurance.
